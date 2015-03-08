@@ -1,5 +1,5 @@
 {
-  "name": "rapydscript",
+  "name": "rpitu",
   "description": "Pythonic JavaScript that doesn't suck",
   "homepage": "http://rapydscript.pyjeon.com",
   "keywords": [
@@ -23,13 +23,13 @@
   ],
   "repository": {
       "type": "git",
-      "url": "https://github.com/atsepkov/RapydScript.git"
+      "url": "https://github.com/muhammedfatih/RapydScript.git"
   },
   "dependencies": {
     "async": "~0.2.6",
     "optimist": "~0.3.5"
   },
   "bin": {
-    "rapydscript": "bin/rapydscript"
+    "rpitu": "bin/rpitu"
   }
 }
