@@ -92,6 +92,7 @@ NATIVE_CLASSES = {
     'Uint32Array': {},
     'Uint8Array': {},
     'Uint8ClampedArray': {}
+    }
 }
 
 OPERATOR_CHARS = makePredicate(characters("+-*&%=<>!?|~^@"))

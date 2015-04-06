@@ -1,21 +1,24 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'node', '/usr/local/bin/npm', 'link', '.' ]
-2 info using npm@1.4.28
+2 info using npm@2.7.6
 3 info using node@v0.10.32
 4 verbose linkPkg /Users/muhammedfatih/Desktop/RapydScript
-5 error Error: EACCES, unlink '/usr/local/lib/node_modules/rapydscript'
-5 error  { [Error: EACCES, unlink '/usr/local/lib/node_modules/rapydscript']
-5 error   errno: 3,
-5 error   code: 'EACCES',
-5 error   path: '/usr/local/lib/node_modules/rapydscript' }
-6 error Please try running this command again as root/Administrator.
-7 error System Darwin 12.5.0
-8 error command "node" "/usr/local/bin/npm" "link" "."
-9 error cwd /Users/muhammedfatih/Desktop/RapydScript
-10 error node -v v0.10.32
-11 error npm -v 1.4.28
-12 error path /usr/local/lib/node_modules/rapydscript
-13 error code EACCES
-14 error errno 3
-15 error stack Error: EACCES, unlink '/usr/local/lib/node_modules/rapydscript'
-16 verbose exit [ 3, true ]
+5 silly gentlyRm /usr/local/lib/node_modules/rpitu is being purged
+6 verbose gentlyRm don't care about contents; nuking /usr/local/lib/node_modules/rpitu
+7 silly vacuum-fs purging /usr/local/lib/node_modules/rpitu
+8 verbose stack Error: EACCES, unlink '/usr/local/lib/node_modules/rpitu'
+9 verbose cwd /Users/muhammedfatih/Desktop/RapydScript
+10 error Darwin 12.5.0
+11 error argv "node" "/usr/local/bin/npm" "link" "."
+12 error node v0.10.32
+13 error npm  v2.7.6
+14 error path /usr/local/lib/node_modules/rpitu
+15 error code EACCES
+16 error errno 3
+17 error Error: EACCES, unlink '/usr/local/lib/node_modules/rpitu'
+17 error  { [Error: EACCES, unlink '/usr/local/lib/node_modules/rpitu']
+17 error   errno: 3,
+17 error   code: 'EACCES',
+17 error   path: '/usr/local/lib/node_modules/rpitu' }
+18 error Please try running this command again as root/Administrator.
+19 verbose exit [ 3, true ]

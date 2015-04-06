@@ -55,13 +55,13 @@ Array.prototype.copy = def():
     return this.slice(0)
 
 ###########################################################
-# Dictionary Methods
+# mainDictionary Methods
 ###########################################################
-# dict (this is a bit of a hack for now, to avoid overwriting the Object)
-# the methods below must be used via dict.method(object) instead of object.method()
-dict.inc = def(n):
+# mainDict (this is a bit of a hack for now, to avoid overwriting the Object)
+# the methods below must be used via mainDict.method(object) instead of object.method()
+mainDict.inc = def(n):
     return n+1
-def dict(iterable):
+def mainDict(iterable):
     result = {}
     for key in iterable:
         result[key] = iterable[key]
@@ -69,7 +69,7 @@ def dict(iterable):
 
 if type(Object.getOwnPropertyNames) is not "function":
     # IE and older browsers
-    dict.keys = def(hash):
+    mainDict.keys = def(hash):
         keys = []
 
         # Use a standard for in loop
@@ -83,51 +83,51 @@ if type(Object.getOwnPropertyNames) is not "function":
         return keys
 else:
     # normal browsers
-    dict.keys = def(hash):
+    mainDict.keys = def(hash):
         return Object.getOwnPropertyNames(hash)
 
-dict.values = def(hash):
+mainDict.values = def(hash):
     vals = []
-    for key in dict.keys(hash):
+    for key in mainDict.keys(hash):
         vals.append(hash[key])
     return vals
 
-dict.items = def(hash):
+mainDict.items = def(hash):
     items = []
-    for key in dict.keys(hash):
+    for key in mainDict.keys(hash):
         items.append((key, hash[key]))
     return items
 
-dict.copy = dict
+mainDict.copy = mainDict
 
-dict.clear = def(hash):
-    for key in dict.keys(hash):
+mainDict.clear = def(hash):
+    for key in mainDict.keys(hash):
         del hash[key]
 
-dict.get = def(hash, searchKey):
-    for key in dict.keys(hash):
+mainDict.get = def(hash, searchKey):
+    for key in mainDict.keys(hash):
         if key==searchKey:
             return hash[key]
     return ""
 
-dict.setdefault = def(hash, key, value):
-    if dict.get(hash, key) == "":
+mainDict.setdefault = def(hash, key, value):
+    if mainDict.get(hash, key) == "":
         hash[key]=value
         return hash[key]
     else:
         return hash[key]
 
-dict.update = def(hash, key, value):
+mainDict.update = def(hash, key, value):
     hash[key]=value
     return hash
 
-dict.pop = def(hash, searchkey):
+mainDict.pop = def(hash, searchkey):
     temp=hash[searchkey]
     del hash[searchkey]
     return temp
 
-dict.has_key = def(hash, key):
-    lists=dict.keys(hash)
+mainDict.has_key = def(hash, key):
+    lists=mainDict.keys(hash)
     flag=0
     for list in lists:
         if list == key:

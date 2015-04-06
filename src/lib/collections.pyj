@@ -1,0 +1,228 @@
+import stdlib
+module collections:
+	class dict:
+		def __init__(self, iterable={}):
+			self.result={}
+			keys=mainDict.keys(iterable)
+			length=enumerate(mainDict.keys(iterable))
+			values=mainDict.values(iterable)
+			for index in length:
+				key=keys[index[0]]
+				value=values[index[0]]
+				self.result[key]=value
+			return self.result
+
+		def keys(self):
+			if type(Object.getOwnPropertyNames) is not "function":
+				# IE and older browsers
+				keys = []
+				# Use a standard for in loop
+				JS("""
+				for (var x in self.result) {
+					if (self.result.hasOwnProperty(x)) {
+						keys.push(x);
+					}
+				}
+				""")
+				return keys
+			else:
+				# normal browsers
+				return Object.getOwnPropertyNames(self.result)
+
+		def values(self):
+			vals = []
+			for key in self.keys():
+				vals.append(self.result[key])
+			return vals
+
+		def items(self):
+			items = []
+			for key in self.keys():
+				items.append((key, self.result[key]))
+			return items
+
+		def copy(self):
+			returnValue={}
+			keys=self.keys()
+			length=enumerate(self.keys())
+			values=self.values()
+			for index in length:
+				key=keys[index[0]]
+				value=values[index[0]]
+				returnValue[key]=value
+			return dict(returnValue)
+
+		def get(self, searchKey):
+			for key in self.keys():
+				if key==searchKey:
+					return self.result[key]
+			return ""
+
+		def clear(self):
+			for key in self.keys():
+				del self.result[key]
+
+		def setdefault(self, key, value):
+			if self.get(key) == "":
+				self.result[key]=value
+			return self.result[key]
+
+		def update(self, key, value):
+			self.result[key]=value
+			return self.result
+
+		def pop(self, searchkey):
+			temp=self.result[searchkey]
+			del self.result[searchkey]
+			return temp
+
+		def has_key(self, key):
+			lists=self.keys()
+			flag=0
+			for list in lists:
+				if list == key:
+					flag=1
+			return flag==1
+
+	class OrderedDict(dict):
+		def __init__(self, iterable):
+			self.result={}
+			self.keyOrder={}
+			self.nextKeyOrder=0
+			keys=mainDict.keys(iterable)
+			length=enumerate(mainDict.keys(iterable))
+			values=mainDict.values(iterable)
+			for index in length:
+				key=keys[index[0]]
+				value=values[index[0]]
+				self.result[key]=value
+				self.keyOrder[self.nextKeyOrder]=key
+				self.nextKeyOrder=self.nextKeyOrder+1
+			return self.result
+
+		def update(self, key, value):
+			has_key=self.has_key(key)
+			self.result[key]=value
+			if (!has_key):
+				self.keyOrder[self.nextKeyOrder]=key
+				self.nextKeyOrder=self.nextKeyOrder+1
+			return self.result
+
+		def pop(self, searchkey):
+			temp=self.result[searchkey]
+			del self.result[searchkey]
+			self.delFromKeyOrder(searchkey)
+			return temp
+
+		def delFromKeyOrder(self, searchkey):
+			for index in range(self.nextKeyOrder):
+				key=index
+				value=self.keyOrder[key]
+				if value==searchkey:
+					del self.keyOrder[key]
+					return true
+			return false
+
+		def hasKeyOrder(self, searchKey):
+			lists=self.keyOrder
+			flag=0
+			for index in range(self.nextKeyOrder):
+				list=self.keyOrder[index]
+				if list == searchKey:
+					flag=1
+			return flag==1
+
+		def keys(self):
+			returnKey=[]
+			for index in range(self.nextKeyOrder):
+				returnKey[index]=self.keyOrder[index]
+			return returnKey
+
+		def popitem(self, last=true):
+			returnKey;
+			keys=self.keys()
+			for index in range(self.nextKeyOrder):
+				key=keys[index]
+				if self.hasKeyOrder(key):
+					value=self.get()
+					returnKey=key
+					if !last:
+						return self.pop(returnKey)
+			return self.pop(returnKey)
+
+		def reversed(self):
+			returnDict=new collections.OrderedDict({});
+			newKey=self.nextKeyOrder
+			for index in range(self.nextKeyOrder):
+				key=self.keyOrder[self.nextKeyOrder-1-index]
+				value=self.get(key)
+				returnDict.update(key, value)
+			return returnDict
+
+		def isEqual(self, second):
+			if self.nextKeyOrder==second.nextKeyOrder:
+				size=range(self.nextKeyOrder)
+				for index in size:
+					selfKey=self.keyOrder[index]
+					secondKey=second.keyOrder[index]
+					if selfKey==secondKey:
+						selfValue=self.get(selfKey)
+						secondValue=second.get(secondKey)
+						if !selfValue==secondValue:
+							return false
+					else:
+						return false
+				return true
+			else:
+				return false
+
+	class tuple:
+		def __init__(self, iterable={}):
+			self.args={}
+			for index in range(len(iterable)):
+				self.args[index]=iterable[index]
+		def __add__(self, index):
+			return self.args[index]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
