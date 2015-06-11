@@ -59,8 +59,7 @@ module collections:
 			return ""
 
 		def clear(self):
-			for key in self.keys():
-				del self.result[key]
+			self.result={}
 
 		def setdefault(self, key, value):
 			if self.get(key) == "":
@@ -73,8 +72,15 @@ module collections:
 
 		def pop(self, searchkey):
 			temp=self.result[searchkey]
-			del self.result[searchkey]
-			return temp
+			result2={}
+			for item in self.items():
+				result2[item[0]]=item[1]
+				print(item[0])
+				print(item[1])
+				print(result2)
+#			print(result2)
+#			del self.result[searchkey]
+#			return temp
 
 		def has_key(self, key):
 			lists=self.keys()
@@ -83,6 +89,12 @@ module collections:
 				if list == key:
 					flag=1
 			return flag==1
+
+		def __index__(self, index):
+			return self.get(index)
+		def __assign__(self, index, value):
+			self.update(index, value)
+			
 
 	class OrderedDict(dict):
 		def __init__(self, iterable):
@@ -177,14 +189,16 @@ module collections:
 				return false
 
 	class tuple:
-		def __init__(self, iterable={}):
-			self.args={}
-			for index in range(len(iterable)):
-				self.args[index]=iterable[index]
-		def __add__(self, index):
+		def __init__(self, iterable=[]):
+			self.args=[]
+			index=0
+			for list in iterable:
+				self.args.insert(index, list)
+				index=index+1
+		def __index__(self, index):
 			return self.args[index]
-
-
+		def __assign__(self, index, value):
+			self.args[index]=value
 
 
 

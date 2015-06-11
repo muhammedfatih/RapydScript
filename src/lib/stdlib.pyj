@@ -53,14 +53,20 @@ Array.prototype.remove = def(item):
     this.splice(index, 1)
 Array.prototype.copy = def():
     return this.slice(0)
-
+Array.prototype.__index__= def(index):
+    i=0;
+    for list in this:
+        if(i==index):
+            return list
+        i=i+1
+Array.prototype.__assign__= def(current, value):
+    Array.remove(this, current+1)
+    Array.insert(this, current, value)
 ###########################################################
 # mainDictionary Methods
 ###########################################################
 # mainDict (this is a bit of a hack for now, to avoid overwriting the Object)
 # the methods below must be used via mainDict.method(object) instead of object.method()
-mainDict.inc = def(n):
-    return n+1
 def mainDict(iterable):
     result = {}
     for key in iterable:

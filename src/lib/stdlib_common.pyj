@@ -14,6 +14,14 @@
 JSON = JSON or {}
 
 # implement JSON.stringify in older browsers, if doesn't already exist
+JS("""
+    Object.prototype.__index__ = function(obj){
+        return this[obj];
+    };
+    Object.prototype.__assign__ = function(obj, val){
+        this[obj]=val;
+    };
+    """)
 if not JSON.stringify:
     JS("""
     JSON.stringify = function(obj) {

@@ -38,16 +38,6 @@ function enumerate(item) {
     }
     return arr;
 }
-function len(obj) {
-    if (obj instanceof Array || typeof obj === "string") return obj.length;
-    else {
-        var count = 0;
-        for (var i in obj) {
-            if (obj.hasOwnProperty(i)) count++;
-        }
-        return count;
-    }
-}
 function _$rapyd$_print() {
     var args, output;
     args = [].slice.call(arguments, 0);
@@ -55,6 +45,14 @@ function _$rapyd$_print() {
     if ("console" in window) console.log(output.substr(1, output.length-2));
 }
 JSON = JSON || {};
+
+    Object.prototype.__index__ = function(obj){
+        return this[obj];
+    };
+    Object.prototype.__assign__ = function(obj, val){
+        this[obj]=val;
+    };
+    ;
 if (!JSON.stringify) {
     
     JSON.stringify = function(obj) {
@@ -90,7 +88,7 @@ if (!JSON.stringify) {
 str = JSON.stringify;
 function kwargs(f) {
     var argNames;
-    argNames = f.toString().match(/\(([^\)]+)/)[1];
+    argNames = f.toString().match(/\(([^\)]+)/).__index__(1);
     argNames = argNames ? argNames.split(",").map(function(s) {
         return s.trim();
     }) : [];
@@ -101,8 +99,8 @@ function kwargs(f) {
             kw = args.pop();
             if (typeof kw === "object") {
                 for (i = 0; i < argNames.length; i++) {
-                    if (_$rapyd$_in(argNames[i], dir(kw))) {
-                        args[i] = kw[argNames[i]];
+                    if (_$rapyd$_in(argNames.__index__(i), dir(kw))) {
+                        args.__assign__(i, kw.__index__(argNames.__index__(i)));
                     }
                 }
             } else {
@@ -236,7 +234,7 @@ function deep_eq(a, b) {
         for (var _$rapyd$_Index0 = 0; _$rapyd$_Index0 < _$rapyd$_Iter0.length; _$rapyd$_Index0++) {
             i = _$rapyd$_Iter0[_$rapyd$_Index0];
             if (b.hasOwnProperty(i)) {
-                if (!deep_eq(a[i], b[i])) {
+                if (!deep_eq(a.__index__(i), b.__index__(i))) {
                     return false;
                 }
             } else {
@@ -288,7 +286,7 @@ Array.prototype.insert = function(index, item) {
 };
 Array.prototype.pop = function(index) {
     if (typeof index === "undefined") index = this.length - 1;
-    return this.splice(index, 1)[0];
+    return this.splice(index, 1).__index__(0);
 };
 Array.prototype.extend = function(array2) {
     this.push.apply(this, array2);
@@ -301,16 +299,29 @@ Array.prototype.remove = function(item) {
 Array.prototype.copy = function() {
     return this.slice(0);
 };
-mainDict.inc = function(n) {
-    return n + 1;
+Array.prototype.__index__ = function(index) {
+    var i, list;
+    i = 0;
+    var _$rapyd$_Iter2 = this;
+    for (var _$rapyd$_Index2 = 0; _$rapyd$_Index2 < _$rapyd$_Iter2.length; _$rapyd$_Index2++) {
+        list = _$rapyd$_Iter2[_$rapyd$_Index2];
+        if (i === index) {
+            return list;
+        }
+        i = i + 1;
+    }
+};
+Array.prototype.__assign__ = function(current, value) {
+    Array.prototype.remove.call(this, current + 1);
+    Array.prototype.insert.call(this, current, value);
 };
 function mainDict(iterable) {
     var result, key;
     result = {};
-    var _$rapyd$_Iter2 = iterable;
-    for (var _$rapyd$_Index2 = 0; _$rapyd$_Index2 < _$rapyd$_Iter2.length; _$rapyd$_Index2++) {
-        key = _$rapyd$_Iter2[_$rapyd$_Index2];
-        result[key] = iterable[key];
+    var _$rapyd$_Iter3 = iterable;
+    for (var _$rapyd$_Index3 = 0; _$rapyd$_Index3 < _$rapyd$_Iter3.length; _$rapyd$_Index3++) {
+        key = _$rapyd$_Iter3[_$rapyd$_Index3];
+        result.__assign__(key, iterable.__index__(key));
     }
     return result;
 }
@@ -335,68 +346,68 @@ if (typeof Object.getOwnPropertyNames !== "function") {
 mainDict.values = function(hash) {
     var vals, key;
     vals = [];
-    var _$rapyd$_Iter3 = mainDict.keys(hash);
-    for (var _$rapyd$_Index3 = 0; _$rapyd$_Index3 < _$rapyd$_Iter3.length; _$rapyd$_Index3++) {
-        key = _$rapyd$_Iter3[_$rapyd$_Index3];
-        vals.append(hash[key]);
+    var _$rapyd$_Iter4 = mainDict.keys(hash);
+    for (var _$rapyd$_Index4 = 0; _$rapyd$_Index4 < _$rapyd$_Iter4.length; _$rapyd$_Index4++) {
+        key = _$rapyd$_Iter4[_$rapyd$_Index4];
+        vals.append(hash.__index__(key));
     }
     return vals;
 };
 mainDict.items = function(hash) {
     var items, key;
     items = [];
-    var _$rapyd$_Iter4 = mainDict.keys(hash);
-    for (var _$rapyd$_Index4 = 0; _$rapyd$_Index4 < _$rapyd$_Iter4.length; _$rapyd$_Index4++) {
-        key = _$rapyd$_Iter4[_$rapyd$_Index4];
-        items.append([key, hash[key]]);
+    var _$rapyd$_Iter5 = mainDict.keys(hash);
+    for (var _$rapyd$_Index5 = 0; _$rapyd$_Index5 < _$rapyd$_Iter5.length; _$rapyd$_Index5++) {
+        key = _$rapyd$_Iter5[_$rapyd$_Index5];
+        items.append([key, hash.__index__(key)]);
     }
     return items;
 };
 mainDict.copy = mainDict;
 mainDict.clear = function(hash) {
     var key;
-    var _$rapyd$_Iter5 = mainDict.keys(hash);
-    for (var _$rapyd$_Index5 = 0; _$rapyd$_Index5 < _$rapyd$_Iter5.length; _$rapyd$_Index5++) {
-        key = _$rapyd$_Iter5[_$rapyd$_Index5];
-        delete hash[key];
+    var _$rapyd$_Iter6 = mainDict.keys(hash);
+    for (var _$rapyd$_Index6 = 0; _$rapyd$_Index6 < _$rapyd$_Iter6.length; _$rapyd$_Index6++) {
+        key = _$rapyd$_Iter6[_$rapyd$_Index6];
+        delete hash.__index__(key);
     }
 };
 mainDict.get = function(hash, searchKey) {
     var key;
-    var _$rapyd$_Iter6 = mainDict.keys(hash);
-    for (var _$rapyd$_Index6 = 0; _$rapyd$_Index6 < _$rapyd$_Iter6.length; _$rapyd$_Index6++) {
-        key = _$rapyd$_Iter6[_$rapyd$_Index6];
+    var _$rapyd$_Iter7 = mainDict.keys(hash);
+    for (var _$rapyd$_Index7 = 0; _$rapyd$_Index7 < _$rapyd$_Iter7.length; _$rapyd$_Index7++) {
+        key = _$rapyd$_Iter7[_$rapyd$_Index7];
         if (key === searchKey) {
-            return hash[key];
+            return hash.__index__(key);
         }
     }
     return "";
 };
 mainDict.setdefault = function(hash, key, value) {
     if (mainDict.get(hash, key) === "") {
-        hash[key] = value;
-        return hash[key];
+        hash.__assign__(key, value);
+        return hash.__index__(key);
     } else {
-        return hash[key];
+        return hash.__index__(key);
     }
 };
 mainDict.update = function(hash, key, value) {
-    hash[key] = value;
+    hash.__assign__(key, value);
     return hash;
 };
 mainDict.pop = function(hash, searchkey) {
     var temp;
-    temp = hash[searchkey];
-    delete hash[searchkey];
+    temp = hash.__index__(searchkey);
+    delete hash.__index__(searchkey);
     return temp;
 };
 mainDict.has_key = function(hash, key) {
     var lists, flag, list;
     lists = mainDict.keys(hash);
     flag = 0;
-    var _$rapyd$_Iter7 = lists;
-    for (var _$rapyd$_Index7 = 0; _$rapyd$_Index7 < _$rapyd$_Iter7.length; _$rapyd$_Index7++) {
-        list = _$rapyd$_Iter7[_$rapyd$_Index7];
+    var _$rapyd$_Iter8 = lists;
+    for (var _$rapyd$_Index8 = 0; _$rapyd$_Index8 < _$rapyd$_Iter8.length; _$rapyd$_Index8++) {
+        list = _$rapyd$_Iter8[_$rapyd$_Index8];
         if (list === key) {
             flag = 1;
         }
@@ -415,12 +426,12 @@ var collections = (function(){
         keys = mainDict.keys(iterable);
         length = enumerate(mainDict.keys(iterable));
         values = mainDict.values(iterable);
-        var _$rapyd$_Iter8 = length;
-        for (var _$rapyd$_Index8 = 0; _$rapyd$_Index8 < _$rapyd$_Iter8.length; _$rapyd$_Index8++) {
-            index = _$rapyd$_Iter8[_$rapyd$_Index8];
-            key = keys[index[0]];
-            value = values[index[0]];
-            self.result[key] = value;
+        var _$rapyd$_Iter9 = length;
+        for (var _$rapyd$_Index9 = 0; _$rapyd$_Index9 < _$rapyd$_Iter9.length; _$rapyd$_Index9++) {
+            index = _$rapyd$_Iter9[_$rapyd$_Index9];
+            key = keys.__index__(index.__index__(0));
+            value = values.__index__(index.__index__(0));
+            self.result.__assign__(key, value);
         }
         return self.result;
     };
@@ -445,10 +456,10 @@ var collections = (function(){
         var self = this;
         var vals, key;
         vals = [];
-        var _$rapyd$_Iter9 = self.keys();
-        for (var _$rapyd$_Index9 = 0; _$rapyd$_Index9 < _$rapyd$_Iter9.length; _$rapyd$_Index9++) {
-            key = _$rapyd$_Iter9[_$rapyd$_Index9];
-            vals.append(self.result[key]);
+        var _$rapyd$_Iter10 = self.keys();
+        for (var _$rapyd$_Index10 = 0; _$rapyd$_Index10 < _$rapyd$_Iter10.length; _$rapyd$_Index10++) {
+            key = _$rapyd$_Iter10[_$rapyd$_Index10];
+            vals.append(self.result.__index__(key));
         }
         return vals;
     };
@@ -456,10 +467,10 @@ var collections = (function(){
         var self = this;
         var items, key;
         items = [];
-        var _$rapyd$_Iter10 = self.keys();
-        for (var _$rapyd$_Index10 = 0; _$rapyd$_Index10 < _$rapyd$_Iter10.length; _$rapyd$_Index10++) {
-            key = _$rapyd$_Iter10[_$rapyd$_Index10];
-            items.append([key, self.result[key]]);
+        var _$rapyd$_Iter11 = self.keys();
+        for (var _$rapyd$_Index11 = 0; _$rapyd$_Index11 < _$rapyd$_Iter11.length; _$rapyd$_Index11++) {
+            key = _$rapyd$_Iter11[_$rapyd$_Index11];
+            items.append([key, self.result.__index__(key)]);
         }
         return items;
     };
@@ -470,68 +481,78 @@ var collections = (function(){
         keys = self.keys();
         length = enumerate(self.keys());
         values = self.values();
-        var _$rapyd$_Iter11 = length;
-        for (var _$rapyd$_Index11 = 0; _$rapyd$_Index11 < _$rapyd$_Iter11.length; _$rapyd$_Index11++) {
-            index = _$rapyd$_Iter11[_$rapyd$_Index11];
-            key = keys[index[0]];
-            value = values[index[0]];
-            returnValue[key] = value;
+        var _$rapyd$_Iter12 = length;
+        for (var _$rapyd$_Index12 = 0; _$rapyd$_Index12 < _$rapyd$_Iter12.length; _$rapyd$_Index12++) {
+            index = _$rapyd$_Iter12[_$rapyd$_Index12];
+            key = keys.__index__(index.__index__(0));
+            value = values.__index__(index.__index__(0));
+            returnValue.__assign__(key, value);
         }
         return new dict(returnValue);
     };
     dict.prototype.get = function get(searchKey){
         var self = this;
         var key;
-        var _$rapyd$_Iter12 = self.keys();
-        for (var _$rapyd$_Index12 = 0; _$rapyd$_Index12 < _$rapyd$_Iter12.length; _$rapyd$_Index12++) {
-            key = _$rapyd$_Iter12[_$rapyd$_Index12];
+        var _$rapyd$_Iter13 = self.keys();
+        for (var _$rapyd$_Index13 = 0; _$rapyd$_Index13 < _$rapyd$_Iter13.length; _$rapyd$_Index13++) {
+            key = _$rapyd$_Iter13[_$rapyd$_Index13];
             if (key === searchKey) {
-                return self.result[key];
+                return self.result.__index__(key);
             }
         }
         return "";
     };
     dict.prototype.clear = function clear(){
         var self = this;
-        var key;
-        var _$rapyd$_Iter13 = self.keys();
-        for (var _$rapyd$_Index13 = 0; _$rapyd$_Index13 < _$rapyd$_Iter13.length; _$rapyd$_Index13++) {
-            key = _$rapyd$_Iter13[_$rapyd$_Index13];
-            delete self.result[key];
-        }
+        self.result = {};
     };
     dict.prototype.setdefault = function setdefault(key, value){
         var self = this;
         if (self.get(key) === "") {
-            self.result[key] = value;
+            self.result.__assign__(key, value);
         }
-        return self.result[key];
+        return self.result.__index__(key);
     };
     dict.prototype.update = function update(key, value){
         var self = this;
-        self.result[key] = value;
+        self.result.__assign__(key, value);
         return self.result;
     };
     dict.prototype.pop = function pop(searchkey){
         var self = this;
-        var temp;
-        temp = self.result[searchkey];
-        delete self.result[searchkey];
-        return temp;
+        var temp, result2, item;
+        temp = self.result.__index__(searchkey);
+        result2 = {};
+        var _$rapyd$_Iter14 = self.items();
+        for (var _$rapyd$_Index14 = 0; _$rapyd$_Index14 < _$rapyd$_Iter14.length; _$rapyd$_Index14++) {
+            item = _$rapyd$_Iter14[_$rapyd$_Index14];
+            result2.__assign__(undefined, item.__index__(1));
+            _$rapyd$_print(item.__index__(0));
+            _$rapyd$_print(item.__index__(1));
+            _$rapyd$_print(result2);
+        }
     };
     dict.prototype.has_key = function has_key(key){
         var self = this;
         var lists, flag, list;
         lists = self.keys();
         flag = 0;
-        var _$rapyd$_Iter14 = lists;
-        for (var _$rapyd$_Index14 = 0; _$rapyd$_Index14 < _$rapyd$_Iter14.length; _$rapyd$_Index14++) {
-            list = _$rapyd$_Iter14[_$rapyd$_Index14];
+        var _$rapyd$_Iter15 = lists;
+        for (var _$rapyd$_Index15 = 0; _$rapyd$_Index15 < _$rapyd$_Iter15.length; _$rapyd$_Index15++) {
+            list = _$rapyd$_Iter15[_$rapyd$_Index15];
             if (list === key) {
                 flag = 1;
             }
         }
         return flag === 1;
+    };
+    dict.prototype.__index__ = function __index__(index){
+        var self = this;
+        return self.get(index);
+    };
+    dict.prototype.__assign__ = function __assign__(index, value){
+        var self = this;
+        self.update(index, value);
     };
 
     function OrderedDict() {
@@ -547,13 +568,13 @@ var collections = (function(){
         keys = mainDict.keys(iterable);
         length = enumerate(mainDict.keys(iterable));
         values = mainDict.values(iterable);
-        var _$rapyd$_Iter15 = length;
-        for (var _$rapyd$_Index15 = 0; _$rapyd$_Index15 < _$rapyd$_Iter15.length; _$rapyd$_Index15++) {
-            index = _$rapyd$_Iter15[_$rapyd$_Index15];
-            key = keys[index[0]];
-            value = values[index[0]];
-            self.result[key] = value;
-            self.keyOrder[self.nextKeyOrder] = key;
+        var _$rapyd$_Iter16 = length;
+        for (var _$rapyd$_Index16 = 0; _$rapyd$_Index16 < _$rapyd$_Iter16.length; _$rapyd$_Index16++) {
+            index = _$rapyd$_Iter16[_$rapyd$_Index16];
+            key = keys.__index__(index.__index__(0));
+            value = values.__index__(index.__index__(0));
+            self.result.__assign__(key, value);
+            self.keyOrder.__assign__(undefined, key);
             self.nextKeyOrder = self.nextKeyOrder + 1;
         }
         return self.result;
@@ -562,9 +583,9 @@ var collections = (function(){
         var self = this;
         var has_key;
         has_key = self.has_key(key);
-        self.result[key] = value;
+        self.result.__assign__(key, value);
         if (!has_key) {
-            self.keyOrder[self.nextKeyOrder] = key;
+            self.keyOrder.__assign__(undefined, key);
             self.nextKeyOrder = self.nextKeyOrder + 1;
         }
         return self.result;
@@ -572,8 +593,8 @@ var collections = (function(){
     OrderedDict.prototype.pop = function pop(searchkey){
         var self = this;
         var temp;
-        temp = self.result[searchkey];
-        delete self.result[searchkey];
+        temp = self.result.__index__(searchkey);
+        delete self.result.__index__(searchkey);
         self.delFromKeyOrder(searchkey);
         return temp;
     };
@@ -582,9 +603,9 @@ var collections = (function(){
         var key, value, index;
         for (index = 0; index < self.nextKeyOrder; index++) {
             key = index;
-            value = self.keyOrder[key];
+            value = self.keyOrder.__index__(key);
             if (value === searchkey) {
-                delete self.keyOrder[key];
+                delete self.keyOrder.__index__(key);
                 return true;
             }
         }
@@ -596,7 +617,7 @@ var collections = (function(){
         lists = self.keyOrder;
         flag = 0;
         for (index = 0; index < self.nextKeyOrder; index++) {
-            list = self.keyOrder[index];
+            list = self.keyOrder.__index__(index);
             if (list === searchKey) {
                 flag = 1;
             }
@@ -608,7 +629,7 @@ var collections = (function(){
         var returnKey, index;
         returnKey = [];
         for (index = 0; index < self.nextKeyOrder; index++) {
-            returnKey[index] = self.keyOrder[index];
+            returnKey.__assign__(index, self.keyOrder.__index__(index));
         }
         return returnKey;
     };
@@ -619,7 +640,7 @@ var collections = (function(){
         returnKey;
         keys = self.keys();
         for (index = 0; index < self.nextKeyOrder; index++) {
-            key = keys[index];
+            key = keys.__index__(index);
             if (self.hasKeyOrder(key)) {
                 value = self.get();
                 returnKey = key;
@@ -636,7 +657,7 @@ var collections = (function(){
         returnDict = new collections.OrderedDict({});
         newKey = self.nextKeyOrder;
         for (index = 0; index < self.nextKeyOrder; index++) {
-            key = self.keyOrder[self.nextKeyOrder - 1 - index];
+            key = self.keyOrder.__index__(self.nextKeyOrder - 1 - index);
             value = self.get(key);
             returnDict.update(key, value);
         }
@@ -647,11 +668,11 @@ var collections = (function(){
         var size, selfKey, secondKey, selfValue, secondValue, index;
         if (self.nextKeyOrder === second.nextKeyOrder) {
             size = range(self.nextKeyOrder);
-            var _$rapyd$_Iter16 = size;
-            for (var _$rapyd$_Index16 = 0; _$rapyd$_Index16 < _$rapyd$_Iter16.length; _$rapyd$_Index16++) {
-                index = _$rapyd$_Iter16[_$rapyd$_Index16];
-                selfKey = self.keyOrder[index];
-                secondKey = second.keyOrder[index];
+            var _$rapyd$_Iter17 = size;
+            for (var _$rapyd$_Index17 = 0; _$rapyd$_Index17 < _$rapyd$_Iter17.length; _$rapyd$_Index17++) {
+                index = _$rapyd$_Iter17[_$rapyd$_Index17];
+                selfKey = self.keyOrder.__index__(index);
+                secondKey = second.keyOrder.__index__(index);
                 if (selfKey === secondKey) {
                     selfValue = self.get(selfKey);
                     secondValue = second.get(secondKey);
@@ -673,16 +694,24 @@ var collections = (function(){
     }
     tuple.prototype.__init__ = function __init__(iterable){
         var self = this;
-        if (typeof iterable === "undefined") iterable = {};
-        var index;
-        self.args = {};
-        for (index = 0; index < len(iterable); index++) {
-            self.args[index] = iterable[index];
+        if (typeof iterable === "undefined") iterable = [];
+        var index, list;
+        self.args = [];
+        index = 0;
+        var _$rapyd$_Iter18 = iterable;
+        for (var _$rapyd$_Index18 = 0; _$rapyd$_Index18 < _$rapyd$_Iter18.length; _$rapyd$_Index18++) {
+            list = _$rapyd$_Iter18[_$rapyd$_Index18];
+            self.args.insert(index, list);
+            index = index + 1;
         }
     };
-    tuple.prototype.__add__ = function __add__(index){
+    tuple.prototype.__index__ = function __index__(index){
         var self = this;
-        return self.args[index];
+        return self.args.__index__(index);
+    };
+    tuple.prototype.__assign__ = function __assign__(index, value){
+        var self = this;
+        self.args.__assign__(index, value);
     };
 
     return {
@@ -692,5 +721,9 @@ var collections = (function(){
     };
 })();
 
-d = new collections.tuple([ "name", "surname" ]);
-_$rapyd$_print(d[0]);
+d = new collections.dict({
+    "isim": "fatih",
+    "soyisim": "inanc",
+    "universite": "itu"
+});
+d.pop("isim");

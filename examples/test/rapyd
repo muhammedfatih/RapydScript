@@ -1,8 +1,25 @@
 import collections
 
-d=new collections.tuple(["name", "surname"])
-print(d[0])
-#d=new collections.OrderedDict({"isim":"fatih", "soyisim":"inanc", "universite":"itu"})
+#dict Controls After __assign__ and __index__ operators overloading
+d=new collections.dict({"isim":"fatih", "soyisim":"inanc", "universite":"itu"})
+#print(d.keys())
+#print(d.values())
+#print(d.items())
+#e=d
+#print(e)
+#f=d.copy()
+#print(f)
+#print(d.get("isim"))
+#d.clear()
+#print(d)
+#d.setdefault("universite", "itu")
+#print(d)
+#d.update("isim", "fatih")
+#print(d)
+d.pop("isim");
+#print(d.pop("isim"))
+#print(d)
+
 #f=new collections.OrderedDict({"isim":"fatih", "soyisim":"inanc", "universite":"itu"})
 #print(d)
 #e=d.reversed()
@@ -35,3 +52,27 @@ print(d[0])
 #print(d)
 #print(d.has_key("universite"))
 #print(d.has_key("isim"))
+
+#Array Controls After __assign__ and __index__ operators overloading
+#import stdlib
+#e=[1,2,3,5]
+#f=[6,7]
+#e[2]=4;
+#print(e[3])
+#e.append(12)
+#print(e)
+#print(e.find(12))
+#print(e.index(12))
+#print(e.insert(5,13))
+#print(e)
+#e.extend(f)
+#print(e)
+#e.remove(12)
+#print(e)
+#g=e.copy()
+#print(g)
+
+#Tuple Controls After __assign__ and __index__ operators overloading
+#d=new collections.tuple(["name", "surname"])
+#d[1]="itu"
+#print(d)
